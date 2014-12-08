@@ -20,17 +20,33 @@ power_feb07<-power[power$Date>="2007-02-01" & power$Date<="2007-02-02",]
 
 ## Set the graphic parameters for the plot
 
-par(bg="transparent", mar=c(5.5, 4.5, 4.5, 2), oma = c(0, 0, 0, 0), cex=0.75)
+par(mfcol=c(2,2), bg="transparent", mar=c(4, 4.5, 3, 0), cex=0.75)
 
 ## Draw the plot with the required parameters and titles
 
-plot(power_feb07$Time, power_feb07$Global_active_power,type="l",
-     xlab="", ylab="Global Active Power (kilowatts)")
+with(power_feb07, {
+plot(Time, Global_active_power,type="l", xlab="",
+     ylab="Global Active Power")
+
+
+plot(Time,Sub_metering_1, type="n", ylab="Energy sub metering", xlab="", main="")
+
+lines(Time,Sub_metering_1,col="black")
+lines(Time,Sub_metering_2,col="red")
+lines(Time,Sub_metering_3,col="blue")
+
+legend("topright", lty=1, col=c("black","red","blue"), y.intersp=0.12,
+       legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"))
+
+plot(Time, Voltage, type="l", xlab="datetime", ylab="Voltage")
+plot(Time, Global_reactive_power, type="l", xlab="datetime",
+     ylab="Global_reactive_power")
+})
 
 ## Copy plot to "another device" e.g. PNG-file with parameters for
 ## the proper mapping
 
-dev.copy(png, file="ExData_Plotting1/plot2.png", width=480, height=480,
+dev.copy(png, file="ExData_Plotting1/plot4.png", width=480, height=480,
          units = "px", pointsize = 14, antialias="none")
 
 ## Turn off the PNG-device
